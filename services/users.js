@@ -1,5 +1,6 @@
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
 
 // callback ajouter un user
 exports.add = async (req, res, next) => {
@@ -25,7 +26,7 @@ exports.authenticate = async (req, res, next) => {
     try {
         const user = await User.findOne(
             { email },
-            '-__v -createAt -updateAt'
+            '-__v -createdAt -updatedAt'
         );
 
         if (!user) {
