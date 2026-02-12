@@ -5,7 +5,7 @@ const services = require('../services/users')
 const private = require('../middlewares/private')
 
 /* GET users listing. */
-router.get('/:id', private.checkJWT, services.getById)
+router.get('/:email', private.checkJWT, services.getByEmail)
 router.put('/add', services.add);
 
 //route.put('/add', services.add)

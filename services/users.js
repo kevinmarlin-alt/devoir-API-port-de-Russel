@@ -3,11 +3,11 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 
 // callback afficher un user
-exports.getById = async (req, res, next) => {
-    const id = req.params.id
-
+exports.getByEmail = async (req, res, next) => {
+    const email = req.params.email
+    console.log(email)
     try {
-        let user = await User.findById(id)
+        let user = await User.find({ email: email })
         if(user) {
             return res.status(200).json(user)
         }
