@@ -7,14 +7,16 @@ const User = new Schema({
     username: {
         type: String,
         trim: true,
-        required: [true, 'Le nom est requis']
+        required: [true, 'Le nom est requis'],
+        match: /^[A-Za-z'-]+$/
     },
     email: {
         type: String,
         trim: true,
         required: [true, "L'email est requis"],
         unique: true,
-        lowercase: true
+        lowercase: true,
+        match: /\b[A-Za-z0-9._%+-]+@russel-port\.fr\b/
     },
     password: {
         type: String,
