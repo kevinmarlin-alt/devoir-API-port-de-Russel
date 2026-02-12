@@ -1,12 +1,10 @@
 var express = require('express');
 var router = express.Router();
 
-//const services = require('../services/users')
+const services = require('../services/users')
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+router.put('/add', services.add);
 
 //route.put('/add', services.add)
 
