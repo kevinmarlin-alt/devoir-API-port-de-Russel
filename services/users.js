@@ -2,9 +2,8 @@ const User = require('../models/user')
 
 exports.all = async (req, res, next) => {
     try {
-
         const users = await User.find().sort({ username: 1 })
-        console.log("Users", users.length)
+
         res.status(200).render('users', {
             user: req.session.user, 
             users
