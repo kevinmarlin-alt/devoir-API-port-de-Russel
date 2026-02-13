@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+</head>
+<body>
+
+  <h1>Tableau de bord</h1>
+
+  <p>Utilisateur : <strong><%= user.username %></strong></p>
+  <p>Email : <%= user.email %></p>
+  <p>Date : <%= date %></p>
+
+  <nav>
+    <a href="/catways">Catways</a> |
+    <a href="/reservations">Réservations</a> |
+    <a href="/users">Utilisateurs</a> |
+    <a href="/logout">Déconnexion</a>
+  </nav>
+
+</body>
+</html>

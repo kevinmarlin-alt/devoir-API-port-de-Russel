@@ -27,14 +27,23 @@ exports.login = async (req, res, next) => {
 
         delete user._doc.password;
 
+        // /!\ section TOKEN a supprimer
         const token = jwt.sign(
             { user },
             process.env.SECRET_KEY,
             { expiresIn: '24h' }
         );
 
+        // Création de la session avec express-session
+        req.session.user = {
+            id: user._id,
+            email: user.email,
+            username: user.username
+          };
+        console.log(req.session.user)
         res.redirect("/dashboard")
-
+        
+        // /!\ section TOKEN a supprimer
         return res
             .header('Authorization', `Bearer ${token}`)
             .status(200)
