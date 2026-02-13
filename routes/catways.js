@@ -3,8 +3,7 @@ const router = express.Router();
 
 const catwayService = require('../services/catways')
 
-
-router.get('/', catwayService.All)
+router.get('/', catwayService.all)
 //router.get('/:id', catwayService)
 //router.post('/', catwayService)
 //router.put('/:id', catwayService)
