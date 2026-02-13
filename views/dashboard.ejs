@@ -19,5 +19,34 @@
     <a href="/logout">Déconnexion</a>
   </nav>
 
+  <% if (reservations.length === 0) { %>
+      <p>Aucune réservation enregistrée.</p>
+    <% } else { %>
+
+      <table border="1" cellpadding="5">
+        <thead>
+          <tr>
+            <th>Catway</th>
+            <th>Bateau</th>
+            <th>Client</th>
+            <th>Arrivée</th>
+            <th>Départ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% reservations.forEach(reservation => { %>
+            <tr>
+              <td><%= reservation.catwayNumber %></td>
+              <td><%= reservation.boatName %></td>
+              <td><%= reservation.clientName %></td>
+              <td><%= reservation.startDate.toLocaleDateString("en-GB") %></td>
+              <td><%= reservation.endDate.toLocaleDateString("en-GB") %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+
+    <% } %>
+
 </body>
 </html>
