@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const { schema } = require('./user')
 const Schema = mongoose.Schema
 
 const Reservation = new Schema({
@@ -20,10 +19,12 @@ const Reservation = new Schema({
     },
     startDate: {
         type: Date,
+        trim: true,
         required: true
     },
     endDate: {
         type: Date,
+        trim: true,
         required: true
     }
 })

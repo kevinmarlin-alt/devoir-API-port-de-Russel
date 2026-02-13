@@ -8,7 +8,7 @@
     <header>
         <nav>
             <a href="/catways">Catways</a> |
-            <a href="/reservations">Réservations</a> |
+            <a href="/catways/1/reservations">Réservations</a> |
             <a href="/users">Utilisateurs</a> |
             <a href="/logout">Déconnexion</a>
         </nav>
@@ -42,8 +42,8 @@
               <td><%= reservation.catwayNumber %></td>
               <td><%= reservation.boatName %></td>
               <td><%= reservation.clientName %></td>
-              <td><%= reservation.startDate.toLocaleDateString("en-GB") %></td>
-              <td><%= reservation.endDate.toLocaleDateString("en-GB") %></td>
+              <td><%= reservation.startDate.toLocaleDateString("en-FR") %></td>
+              <td><%= reservation.endDate.toLocaleDateString("en-FR") %></td>
             </tr>
           <% }) %>
         </tbody>

@@ -6,6 +6,7 @@ const authentitaceRoute = require('./authenticate')
 const dashboardRoute = require('./dashboard')
 const catwayRoute = require('./catways')
 const usersRoute = require('./users')
+const reservationRoute = require('./reservation')
 //const private = require('../middlewares/private')
 
 const authenticateMiddleware = require('../middlewares/authenticate')
@@ -20,8 +21,8 @@ router.get('/', function(req, res, next) {
 
 router.use('/', authentitaceRoute)
 
-router.use('/dashboard', authenticateMiddleware, dashboardRoute)
-router.use('/catways', authenticateMiddleware, catwayRoute)
-router.use('/users', authenticateMiddleware, usersRoute)
+router.use('/dashboard', dashboardRoute)
+router.use('/catways', catwayRoute, reservationRoute)
+router.use('/users', usersRoute)
 
 module.exports = router;
