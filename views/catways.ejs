@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Port de Russell - Cateways</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/dashboard">Retour</a>
+        </nav>
+    </header>
+    <main>
+        <h1>Catways</h1>
+
+        <% if (catways.length === 0) { %>
+          <p>Aucune catway enregistrée.</p>
+        <% } else { %>
+          <p>Liste des catways</p>
+          <table border="1" cellpadding="5">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% catways.forEach(catway => { %>
+                <tr>
+                  <td><%= catway.catwayNumber %></td>
+                  <td><%= catway.catwayType %></td>
+                  <td><%= catway.catwayState %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+
+        <% } %>
+    </main>
+    
+</body>
+</html>

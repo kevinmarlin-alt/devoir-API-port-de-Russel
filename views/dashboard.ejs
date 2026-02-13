@@ -2,9 +2,17 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Dashboard</title>
+  <title>Port de Russell - Tableau de bord</title>
 </head>
 <body>
+    <header>
+        <nav>
+            <a href="/catways">Catways</a> |
+            <a href="/reservations">Réservations</a> |
+            <a href="/users">Utilisateurs</a> |
+            <a href="/logout">Déconnexion</a>
+        </nav>
+    </header>
 
   <h1>Tableau de bord</h1>
 
@@ -12,12 +20,7 @@
   <p>Email : <%= user.email %></p>
   <p>Date : <%= date %></p>
 
-  <nav>
-    <a href="/catways">Catways</a> |
-    <a href="/reservations">Réservations</a> |
-    <a href="/users">Utilisateurs</a> |
-    <a href="/logout">Déconnexion</a>
-  </nav>
+  
 
   <% if (reservations.length === 0) { %>
       <p>Aucune réservation enregistrée.</p>

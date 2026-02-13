@@ -9,7 +9,7 @@ module.exports = async (req, res, next) => {
 
         res.render("dashboard", {
             user: req.session.user, 
-            date: new Date().toLocaleDateString("en-GB"),
+            date: new Date().toLocaleDateString("en-FR"),
             reservations
         })
 
