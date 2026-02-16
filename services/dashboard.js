@@ -6,8 +6,8 @@ module.exports = async (req, res, next) => {
     
     try {
         const reservations = await Reservation.find().sort({ startDate: 1 })
-
-        res.render("dashboard", {
+        console.log(req.session.user)
+        res.status(200).render("dashboard", {
             user: req.session.user, 
             date: new Date().toLocaleDateString("en-FR"),
             reservations

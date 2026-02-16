@@ -6,6 +6,7 @@ exports.all = async (req, res, next) => {
 
         res.status(200).render('users', {
             user: req.session.user, 
+            link: `/users/${users.email}`,
             users
         })
 
@@ -16,22 +17,12 @@ exports.all = async (req, res, next) => {
 
 // callback afficher un user
 exports.getByEmail = async (req, res, next) => {
-    const email = req.params.email
-    console.log(email)
-    try {
-        let user = await User.find({ email: email })
-        if(user) {
-            return res.status(200).json(user)
-        }
-
-        return res.status(404).json("user_not_found")
-    } catch (error) {
-        return res.status(501).json(error)
-    }
+    console.log(req.body)
 }
 
 // callback ajouter un user
-exports.add = async (req, res, next) => {
+exports.createOne = async (req, res, next) => {
+    
     const temp = ({
         username    : req.body.username,
         email       : req.body.email,
@@ -39,11 +30,17 @@ exports.add = async (req, res, next) => {
     })
 
     try {
-        let user = await User.create(temp)
+        const userTemp = new User()
+        userTemp.username = temp.username
+        userTemp.email = temp.email
+        userTemp.password = temp.password
+        
+        console.log(userTemp)
+        userTemp.save()
 
-        return res.status(201).json(user)
+        return res.status(200).next()
+
     } catch (error) {
-        console.log(error)
         return res.status(501).json(error)
     }
 }

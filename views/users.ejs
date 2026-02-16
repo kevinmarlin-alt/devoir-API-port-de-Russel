@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesheets/users.css">
     <title>Port de Russell - Utilisateurs</title>
 </head>
 <body>
@@ -10,14 +11,42 @@
         <nav>
             <a href="/dashboard">Retour</a>
         </nav>
+        <h1>Utilisateurs</h1>
     </header>
     <main>
-        <h1>Utilisateurs</h1>
 
         <% if (users.length === 0) { %>
           <p>Aucune utilisateur enregistrée.</p>
         <% } else { %>
           <p>Liste des utilisateurs</p>
+          <a id="newUserBtn" href="">Ajouter un utilisateur</a>
+          <form action="/users/add" method="PUT" >
+            <fieldset>
+              <legend>Formulaire d'ajout de nouvel utilisateur</legend>
+              <div>
+                <label for="username">Nom de l'utilisateur :</label>
+                <input type="text" name="username" id="username" >
+                <p>Le nom ne doit pas contenir de nombre.</p>
+              </div>
+              <div>
+                <label for="email">Adresse e-mail :</label>
+                <input type="email" name="email" id="email" required>
+                <p>Renseigner une addresse valide de l'organisation.</p>
+              </div>
+              <div>
+                <label for="password">Mot de passe :</label>
+                <input type="password" name="password" id="password" >
+                <p>Le mot de passe doit remplir les conditions suivantes :</p>
+                <ul>
+                  <li>minimum 8 caractères</li>
+                  <li>contenir minimum 1 caractère spécial [ #?!@$%^&*- ]</li>
+                  <li>contenir minimum 1 lettre majuscule</li>
+                  <li>contenir minimum 1 chiffre</li>
+                </ul>
+              </div>
+              <input type="submit" value="Ajouter">
+            </fieldset>
+          </form>
           <table border="1" cellpadding="5">
             <thead>
               <tr>
@@ -28,15 +57,17 @@
             <tbody>
               <% users.forEach(user => { %>
                 <tr>
-                  <td><%= user.username %></td>
-                  <td><%= user.email %></td>
-                </tr>
+                  
+                  <td><a href=""><%= user.username %></a></td>
+                    <td><%= user.email %></td>
+                  </tr>
+                
               <% }) %>
             </tbody>
           </table>
 
         <% } %>
     </main>
-    
+    <script src="javascripts/users.js" type="text/javascript"></script>
 </body>
 </html>
