@@ -15,18 +15,36 @@ ranges.forEach(range => range.addEventListener('click', handleSelectRange))
 
 
 
-newUserForm.addEventListener('submit', async(e) =>  {
+newUserForm.addEventListener('submit', handleSubmit)
+newUserBtn.addEventListener('click', diqplayNewUserForm)
+usernameInput.addEventListener('input', checkUsername)
+emailInput.addEventListener('focusout', checkEmail)
+passwordInput.addEventListener('input', checkPassword)
+
+
+ function handleSelectRange(e) {
+    e.preventDefault()
+    const target = e.target
+    const rangeParent = target.closest('tr')
+    const email = rangeParent.querySelector('td:nth-of-type(2)').innerText
+    console.log(email)
+
+    
+    fetch(`/users/${email}`, {
+        method: 'GET'
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById('data-username').value = data.user.username
+        document.getElementById('data-email').value = data.user.email
+        //document.getElementById('data-password').value = data.user.password
+
+    })
+}
+
+async function handleSubmit(e) {
     e.preventDefault()
     const playload = Object.fromEntries(new FormData(newUserForm))
-    console.log("Submit", playload.email)
-
-    //const response = await fetch(`/users`, {
-    //    method: "GET"
-    //})
-    //if(response.ok) {
-    //    console.log(response)
-    //    
-    //}
 
     await fetch(`/users/${playload.email}`, {
         method: "PUT",
@@ -35,12 +53,7 @@ newUserForm.addEventListener('submit', async(e) =>  {
     })
     
     window.location.reload()
-
-})
-newUserBtn.addEventListener('click', diqplayNewUserForm)
-usernameInput.addEventListener('input', checkUsername)
-emailInput.addEventListener('focusout', checkEmail)
-passwordInput.addEventListener('input', checkPassword)
+}
 
 /**
  * 
@@ -103,26 +116,3 @@ function diqplayNewUserForm(e) {
 }
 
 
-async function handleSelectRange(e) {
-    //e.preventDefault()
-    const target = e.target
-    const rangeParent = target.closest('tr')
-    const email = rangeParent.querySelector('td:nth-of-type(2)').innerText
-    console.log(email)
-
-    try {
-        const response = await fetch(`/users/${email}`, {
-            method: 'GET'
-        })
-
-
-
-    } catch (error) {
-        console.log(error.message)
-    }
-
-    return
-
-  
-
-}
