@@ -9,5 +9,7 @@ const usersServices = require('../services/users');
 router.get('/', usersServices.all)
 router.get('/:email', usersServices.getByEmail)
 router.put('/:email', usersServices.createOne)
+router.post('/:email', usersServices.upDateOne)
+router.delete('/:email', usersServices.deleteOne)
 
 module.exports = router;

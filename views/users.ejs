@@ -48,13 +48,10 @@
         <form id="userForm" action="#">
           <fieldset>
             <legend>Formulaire de modification</legend>
+            <h2>Informations du compte rattaché à l'adresse : <span>xxx</span></h2>
             <div>
               <label for="username">Nom de l'utilisateur : </label>
               <input type="text" name="username" id="data-username">
-            </div>
-            <div>
-              <label for="email">Email de l'utilisateur : </label>
-              <input type="email" name="email" id="data-email">
             </div>
             <div>
               <label for="password">Mot de passe de l'utilisateur : </label>
@@ -64,6 +61,7 @@
             <input type="button" value="Supprimer">
           </fieldset>
         </form>
+        <p id="info-userForm"></p>
       
 
         <% if (users.length === 0) { %>
@@ -81,7 +79,7 @@
               <% users.forEach(user => { %>
                 <tr>
                   
-                  <td><a href=""><%= user.username %></a></td>
+                  <td><%= user.username %></td>
                     <td><%= user.email %></td>
                   </tr>
                 

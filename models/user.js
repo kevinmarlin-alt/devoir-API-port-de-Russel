@@ -7,8 +7,8 @@ const User = new Schema({
     username: {
         type: String,
         trim: true,
-        required: [false, 'Le nom est requis'],
-        //match: /^[A-Za-z'-]+$/
+        required: [true, 'Le nom est requis'],
+        match: /^[A-Za-z'-]+$/
     },
     email: {
         type: String,
@@ -21,9 +21,9 @@ const User = new Schema({
     password: {
         type: String,
         trim: true,
-        required: [false, "Le mot de pass est requis"],
-        //minLength: 8,
-        //match: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
+        required: [true, "Le mot de pass est requis"],
+        minLength: 8,
+        match: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
     },
 }, {
     timestamps: true

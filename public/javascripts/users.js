@@ -1,45 +1,90 @@
-
-console.log("hello world !")
 const newUserBtn = document.getElementById('newUserBtn')
-
 const newUserForm = document.querySelector('form')
-
 const usernameInput = document.getElementById('username')
 const emailInput = document.getElementById('email')
 const passwordInput = document.getElementById('password')
+const ranges = document.querySelectorAll('tbody tr')
+const userForm = document.getElementById('userForm')
+const suppBtn = document.querySelector('form input[type="button"]')
 
-const ranges = document.querySelectorAll('tbody a')
-console.log(ranges)
+
 ranges.forEach(range => range.addEventListener('click', handleSelectRange))
-
-
-
-
 newUserForm.addEventListener('submit', handleSubmit)
 newUserBtn.addEventListener('click', diqplayNewUserForm)
 usernameInput.addEventListener('input', checkUsername)
 emailInput.addEventListener('focusout', checkEmail)
 passwordInput.addEventListener('input', checkPassword)
+userForm.addEventListener('submit', handleModifyUser)
+suppBtn.addEventListener('click', handleSuppBtn)
+
+function handleSuppBtn() {
+    console.log("test")
+    const email = document.querySelector("form h2 span").innerHTML
+    fetch(`/users/${email}`, {
+        method: "DELETE"
+    })
+    .then(res => res.json())
+    .then(data => {
+        const infoMessage = document.getElementById('info-userForm')
+        infoMessage.innerText = data.message
+        setTimeout(() => {
+            infoMessage.innerText = ""
+            window.location.reload()
+        },2000)
+    })
 
 
- function handleSelectRange(e) {
+}
+
+function handleModifyUser(e) {
+    e.preventDefault()
+    
+    const playload = {}
+    const formData = new FormData(userForm)
+    for(let [key, value] of formData) {
+        if(value !== "") {
+            playload[key] = value
+        }
+    }
+    const email = document.querySelector("form h2 span").innerHTML
+    playload["email"] = email
+    
+    fetch(`/users/${email}`, {
+        method: 'POST',
+        headers: { "Content-Type": 'application/json' },
+        body: JSON.stringify(playload)
+        
+    })  
+    .catch(err => {
+        const infoMessage = document.getElementById('info-userForm')
+        infoMessage.innerText = err.message
+        setTimeout(() => {
+            infoMessage.innerText = ""
+            window.location.reload()
+        },2000)
+        
+    })
+
+}
+
+ async function handleSelectRange(e) {
     e.preventDefault()
     const target = e.target
     const rangeParent = target.closest('tr')
     const email = rangeParent.querySelector('td:nth-of-type(2)').innerText
     console.log(email)
 
-    
+   
     fetch(`/users/${email}`, {
         method: 'GET'
     })
     .then(res => res.json())
     .then(data => {
         document.getElementById('data-username').value = data.user.username
-        document.getElementById('data-email').value = data.user.email
-        //document.getElementById('data-password').value = data.user.password
+        document.querySelector("form h2 span").innerText = data.user.email
 
     })
+    .catch(err => console.error(err.message))
 }
 
 async function handleSubmit(e) {
