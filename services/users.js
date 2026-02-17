@@ -1,74 +1,112 @@
 const User = require('../models/user')
-const jwt = require('jsonwebtoken')
-const bcrypt = require('bcryptjs')
+
+exports.all = async (req, res, next) => {
+    try {
+        const users = await User.find().sort({ username: 1 })
+        if (!users) {
+            return res.status(404).send("Utilisateur introuvable");
+        }
+        res.status(200).render('users', {
+            user: req.session.user, 
+            userSelected: null,
+            users
+        })
+
+    } catch (error) {
+
+    }
+}
 
 // callback afficher un user
-exports.getById = async (req, res, next) => {
-    const id = req.params.id
-
+exports.getByEmail = async (req, res, next) => {
+    const email = req.params.email
+    console.log("--- email -->",email)
     try {
-        let user = await User.findById(id)
-        if(user) {
-            return res.status(200).json(user)
+        const user = await User.findOne({ email: email })
+        
+        if (!user) {
+            return res.status(404).send("Utilisateur introuvable");
         }
 
-        return res.status(404).json("user_not_found")
+        return res.status(200).json({ user })
+ 
     } catch (error) {
-        return res.status(501).json(error)
+        return res.status(404).json({ message: error })
     }
 }
 
 // callback ajouter un user
-exports.add = async (req, res, next) => {
-    const temp = ({
-        username    : req.body.username,
-        email       : req.body.email,
-        password    : req.body.password
+exports.createOne = async (req, res, next) => {
+    delete req.body._id
+    const user = new User({
+        ...req.body
     })
 
     try {
-        let user = await User.create(temp)
+        console.log(user)
+        user.save()
 
-        return res.status(201).json(user)
+        return res.status(200).json({ message: "Utilisateur enregistré !" })
+
     } catch (error) {
-        console.log(error)
-        return res.status(501).json(error)
+        return res.status(400).json({ error })
     }
 }
 
-exports.authenticate = async (req, res, next) => {
-    const { email, password } = req.body;
-
+exports.upDateOne = async (req, res, next) => {
+    const email = req.params.email
+    console.log("------------->>>>>>",req.body)
+    const updates = {}
+    req.body["username"] !== undefined ? updates["username"] = req.body["username"] : 
+    req.body["password"] !== undefined ? updates["password"] = bcrypt.hashSync(req.body["password"]) :
+    //const allowedFields = ["username", "password"]
+    
+    //allowedFields.forEach(field => {
+    //    console.log(req.body[field])
+    //    if(req.body[field] !== undefined) {
+    //        updates[field] = req.body[field]
+    //    }
+    //})
+    console.log("update",updates)
     try {
-        const user = await User.findOne(
-            { email },
-            '-__v -createdAt -updatedAt'
-        );
+        //const user = await User.findOne({ email: email })
+        //console.log("test :::::",user, userTemp)
+        //const test = Object.entries(userTemp)
+        //if(user) {
+            const user = await User.findOneAndUpdate(
+                {email: req.params.email}, {
+                    $set: updates,
+                    updatedAt: Date.now()
+                }
+            )
+            //for (const [key, value] of Object.entries(userTemp)) {
+            //    //console.log("-*-*-*-***-*-", userTemp[key], userTemp[value])
+            //    if(!!userTemp[key]) {
+            //        user[key] = userTemp[key]
+            //    }
+            //}
+            //await user.save()
+            return res.status(201).json({ user })
+        // }
 
-        if (!user) {
-            return res.status(404).json("user_not_found");
-        }
-
-        const isMatch = bcrypt.compare(password, user.password);
-
-        if (!isMatch) {
-            return res.status(403).json("wrong_credentials");
-        }
-
-        delete user._doc.password;
-
-        const token = jwt.sign(
-            { user },
-            process.env.SECRET_KEY,
-            { expiresIn: '24h' }
-        );
-
-        return res
-            .header('Authorization', `Bearer ${token}`)
-            .status(200)
-            .json("authenticate_succeed");
+        return res.status(404).json('user_not_found')
 
     } catch (error) {
-        return res.status(500).json(error.message);
+        res.status(501).json({ message: error })
     }
-};
+}
+
+exports.deleteOne = async (req, res, next) => {
+    const email = req.params.email
+
+    try {
+
+        await User.deleteOne({ email: email })
+
+        res.status(200).json({ message: "Suppression du compte réussit" })
+
+    } catch (error) {
+        return res.status(501).json({ message: error })
+    }
+}
+

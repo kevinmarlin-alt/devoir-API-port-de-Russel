@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Port de Russell - Tableau de bord</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/catways">Catways</a> |
+            <a href="/catways/1/reservations">Réservations</a> |
+            <a href="/users">Utilisateurs</a> |
+            <a href="/logout">Déconnexion</a>
+        </nav>
+    </header>
+
+  <h1>Tableau de bord</h1>
+
+  <p>Utilisateur : <strong><%= user.username %></strong></p>
+  <p>Email : <%= user.email %></p>
+  <p>Date : <%= date %></p>
+
+  
+
+  <% if (reservations.length === 0) { %>
+      <p>Aucune réservation enregistrée.</p>
+    <% } else { %>
+
+      <table border="1" cellpadding="5">
+        <thead>
+          <tr>
+            <th>Catway</th>
+            <th>Bateau</th>
+            <th>Client</th>
+            <th>Arrivée</th>
+            <th>Départ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% reservations.forEach(reservation => { %>
+            <tr>
+              <td><%= reservation.catwayNumber %></td>
+              <td><%= reservation.boatName %></td>
+              <td><%= reservation.clientName %></td>
+              <td><%= reservation.startDate.toLocaleDateString("en-FR") %></td>
+              <td><%= reservation.endDate.toLocaleDateString("en-FR") %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+
+    <% } %>
+
+</body>
+</html>

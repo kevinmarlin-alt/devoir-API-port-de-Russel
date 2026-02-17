@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Port de Russell - Reservations</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/dashboard">Retour</a>
+        </nav>
+    </header>
+    <main>
+        <h1>Reservations</h1>
+
+        <% if (reservations.length === 0) { %>
+          <p>Il n'y a pas de réservation pour ce catway <%= catwaySelected %> pour le moment.</p>
+        <% } else { %>
+          <p>Liste des reservations du catway n°<%= catwaySelected %></p>
+          <table border="1" cellpadding="5">
+            <thead>
+              <tr>
+                <th>Client</th>
+                <th>Bâteau</th>
+                <th>Arrivée</th>
+                <th>Départ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% reservations.forEach(reservation => { %>
+                <tr>
+                  <td><%= reservation.clientName %></td>
+                  <td><%= reservation.boatName %></td>
+                  <td><%= reservation.startDate.toLocaleDateString("en-FR") %></td>
+                  <td><%= reservation.endDate.toLocaleDateString("en-FR") %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+
+        <% } %>
+    </main>
+    
+</body>
+</html>
