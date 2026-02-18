@@ -4,7 +4,8 @@ const Schema = mongoose.Schema
 const Catway = new Schema({
     catwayNumber: {
         type: Number,
-        required: true
+        required: true,
+        unique: true
     },
     catwayType: {
         type: String,
