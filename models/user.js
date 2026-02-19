@@ -8,7 +8,7 @@ const User = new Schema({
         type: String,
         trim: true,
         required: [true, 'Le nom est requis'],
-        match: /^[A-Za-z'-]+$/
+        match: /^[\p{L}](?:[\p{L} '-]*[\p{L}])$/u
     },
     email: {
         type: String,

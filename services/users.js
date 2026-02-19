@@ -1,4 +1,5 @@
 const User = require('../models/user')
+const bcrypt = require('bcryptjs')
 
 exports.all = async (req, res, next) => {
     try {
@@ -38,11 +39,11 @@ exports.getByEmail = async (req, res, next) => {
 // callback ajouter un user
 exports.createOne = async (req, res, next) => {
     delete req.body._id
-    const user = new User({
-        ...req.body
-    })
-
+    
     try {
+        const user = new User({
+            ...req.body
+        })
         console.log(user)
         user.save()
 
