@@ -1,4 +1,5 @@
 const User = require('../models/user')
+const bcrypt = require('bcryptjs')
 
 exports.all = async (req, res, next) => {
     try {
@@ -38,11 +39,11 @@ exports.getByEmail = async (req, res, next) => {
 // callback ajouter un user
 exports.createOne = async (req, res, next) => {
     delete req.body._id
-    const user = new User({
-        ...req.body
-    })
-
+    
     try {
+        const user = new User({
+            ...req.body
+        })
         console.log(user)
         user.save()
 
@@ -55,41 +56,32 @@ exports.createOne = async (req, res, next) => {
 
 exports.upDateOne = async (req, res, next) => {
     const email = req.params.email
-    console.log("------------->>>>>>",req.body)
     const updates = {}
-    req.body["username"] !== undefined ? updates["username"] = req.body["username"] : 
-    req.body["password"] !== undefined ? updates["password"] = bcrypt.hashSync(req.body["password"]) :
-    //const allowedFields = ["username", "password"]
+    if(req.body["username"] !== undefined ) {
+        updates["username"] = req.body["username"]
+    }
     
-    //allowedFields.forEach(field => {
-    //    console.log(req.body[field])
-    //    if(req.body[field] !== undefined) {
-    //        updates[field] = req.body[field]
-    //    }
-    //})
+    if(req.body["password"] !== undefined) {
+        updates["password"] = bcrypt.hashSync(req.body["password"])
+    } 
+
     console.log("update",updates)
     try {
-        //const user = await User.findOne({ email: email })
-        //console.log("test :::::",user, userTemp)
-        //const test = Object.entries(userTemp)
-        //if(user) {
+
             const user = await User.findOneAndUpdate(
-                {email: req.params.email}, {
+                {email: email}, {
                     $set: updates,
                     updatedAt: Date.now()
                 }
             )
-            //for (const [key, value] of Object.entries(userTemp)) {
-            //    //console.log("-*-*-*-***-*-", userTemp[key], userTemp[value])
-            //    if(!!userTemp[key]) {
-            //        user[key] = userTemp[key]
-            //    }
-            //}
-            //await user.save()
-            return res.status(201).json({ user })
-        // }
 
-        return res.status(404).json('user_not_found')
+            if(!user) {
+                return res.status(404).json('user_not_found')
+            }
+
+            return res.status(201).json({ user })
+
+
 
     } catch (error) {
         res.status(501).json({ message: error })

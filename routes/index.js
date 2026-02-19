@@ -22,9 +22,9 @@ router.get('/', function(req, res, next) {
 
 router.use('/', authentitaceRoute)
 
-router.use('/dashboard', dashboardRoute)
-router.use('/catways', catwayRoute, reservationRoute)
-router.use('/users', usersRoute)
+router.use('/dashboard', authenticateMiddleware, dashboardRoute)
+router.use('/catways', authenticateMiddleware, catwayRoute, reservationRoute)
+router.use('/users', authenticateMiddleware, usersRoute)
 
 
 module.exports = router;

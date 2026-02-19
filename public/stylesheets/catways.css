@@ -1,0 +1,11 @@
+tbody tr:hover {
+    background-color: #9ebcd8;
+    cursor: pointer;
+}
+
+#username ~ p,
+#email ~ p {
+    color: red;
+    display: none;
+}
+
