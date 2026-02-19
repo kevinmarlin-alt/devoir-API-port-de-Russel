@@ -5,25 +5,58 @@ let catwaySelected = {
 }
 
 const ranges = document.querySelectorAll('tbody tr')
-const form = document.querySelector('form')
+const catwaysForm = document.querySelector('#catwaysForm')
 const info = document.querySelector('#info-catwaysForm')
+const createCatwayForm = document.getElementById('createCatwayForm')
+const deleteBtn = document.querySelector('#catwaysForm input[type="button"]')
+
 
 
 ranges.forEach(range => range.addEventListener('click', handleClickRange))
-form.addEventListener('submit', handleSubmit)
+catwaysForm.addEventListener('submit', handleSubmit)
+createCatwayForm.addEventListener('submit', handleSubmitcreateCatway)
+deleteBtn.addEventListener('click', handleDeleteBtn)
+
+function handleDeleteBtn() {
+
+    fetch(`/catways/${catwaySelected.catwayNumber}`, {
+        method: "DELETE"
+    })
+    .then(window.location.reload())
+    .catch(err => info.innerText = err.message )
+}
+
+function handleSubmitcreateCatway(e) {
+    e.preventDefault()
+    const playload = Object.fromEntries(new FormData(createCatwayForm))
+    playload.catwayNumber = Number.parseInt(playload.catwayNumber)
+    console.log(playload)
+
+    fetch(`/catways`,{ 
+        method: "POST",
+        headers: { "Content-Type": 'application/json' },
+        body: JSON.stringify(playload)
+    })
+    .then(window.location.reload())
+    .catch(err => info.innerText = err.message )
+
+    
+}
+
 
 function handleSubmit(e) {
     e.preventDefault()
-    const playload = Object.fromEntries(new FormData(form))
+    const playload = Object.fromEntries(new FormData(catwaysForm))
 
     fetch(`/catways/${catwaySelected.catwayNumber}`,{ 
         method: "PUT",
         headers: { "Content-Type": 'application/json' },
         body: JSON.stringify(playload)
     })
+    .then(window.location.reload())
     .catch(err => info.innerText = err.message )
 
-    window.location.reload()
+    
 }
 
 function handleClickRange(e) {

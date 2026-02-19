@@ -15,6 +15,32 @@
     </header>
     <main>
 
+      <form id="createCatwayForm" action="#"  >
+        <fieldset>
+          <legend>Formulaire d'ajout de nouveau catway</legend>
+          <div>
+            <label for="createCatwayNumber">Numéro du catway :</label>
+            <input 
+              type="number" 
+              name="catwayNumber" 
+              id="createCatwayNumber" 
+              min="0">
+          </div>
+          <div>
+            <label for="createCatwayType">Type de catway :</label>
+            <select name="catwayType" id="createCatwayType">
+              <option value="short">short</option>
+              <option value="long">long</option>
+            </select>
+          </div>
+          <div>
+            <label for="createCatwayState">Etat du cateway :</label>
+            <input type="text" name="catwayState" id="createCatwayState" >
+          </div>
+          <input type="submit" value="Ajouter">
+        </fieldset>
+      </form>
+
       <form id="catwaysForm" action="#">
           <fieldset>
             <legend>Formulaire de modification</legend>

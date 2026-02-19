@@ -5,8 +5,8 @@ const catwayService = require('../services/catways')
 
 router.get('/', catwayService.all)
 router.get('/:id', catwayService.getById)
-//router.post('/', catwayService)
+router.post('/', catwayService.add)
 router.put('/:id', catwayService.updateOne)
-//router.delete('/:id', catwayService)
+router.delete('/:id', catwayService.delete)
 
 module.exports = router;

@@ -34,6 +34,23 @@ exports.getById = async (req, res, next) => {
 
 }
 
+exports.add = async (req, res, next) => {
+    delete req.body._id
+    
+    try {
+        const catway = new Catway({
+            ...req.body
+        })
+        console.log(catway)
+        catway.save()
+
+        return res.status(200).json({ message: "Catway enregistré !" })
+
+    } catch (error) {
+        return res.status(404).json({ error })
+    }
+}
+
 exports.updateOne = async (req, res, next) => {
     const catwayNumber = req.params.id
     try {
@@ -57,4 +74,17 @@ exports.updateOne = async (req, res, next) => {
         res.status(501).json({ message: error })
     }
 
+}
+
+exports.delete = async (req, res, next) => {
+    const catwayNumber = req.params.id 
+
+    try {
+        await Catway.deleteOne({ catwayNumber: catwayNumber })
+        res.status(202).json('Catway supprimé !')
+        
+    } catch (error) {
+        res.status(501).json({ message: error })
+
+    }
 }
