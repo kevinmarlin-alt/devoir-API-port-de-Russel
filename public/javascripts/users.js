@@ -46,10 +46,8 @@ function handleModifyUser(e) {
             playload[key] = value
         }
     }
-    const email = document.querySelector("form h2 span").innerHTML
-    playload["email"] = email
-    
-    fetch(`/users/${email}`, {
+
+    fetch(`/users`, {
         method: 'POST',
         headers: { "Content-Type": 'application/json' },
         body: JSON.stringify(playload)
