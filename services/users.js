@@ -1,22 +1,6 @@
 const User = require('../models/user')
 const bcrypt = require('bcryptjs')
 
-exports.all = async (req, res, next) => {
-    try {
-        const users = await User.find().sort({ username: 1 })
-        if (!users) {
-            return res.status(404).send("Utilisateur introuvable");
-        }
-        res.status(200).render('users', {
-            user: req.session.user, 
-            userSelected: null,
-            users
-        })
-
-    } catch (error) {
-
-    }
-}
 
 // callback afficher un user
 exports.getByEmail = async (req, res, next) => {
