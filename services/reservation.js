@@ -37,14 +37,47 @@ exports.getById = async (req, res, next) => {
 
      } catch (error) {
         console.error(error)
-        return res.status(500).send("Erreur lors de la récupération des informations");
+        return res.status(501).send("Erreur lors de la récupération des informations");
      }
 }
 
 exports.add = async (req, res, next) => {
+    const id = req.params.id
+
+    try {
+        const resa = new Reservation({
+            ...req.body,
+            catwayNumber: id
+        })
+        console.log(resa)
+
+        await resa.save()
+        
+        return res.status(200).json({ message: "Réservation enregistrée !" })
+
+    } catch (error) {
+        return res.status(501).send("Erreur lors de l'ajout de la réservation");
+    }
     
 }
 exports.update = async (req, res, next) => {
+    const idResa = req.params.idReservation
+   
+    try {
+
+        const resa = await Reservation.findOneAndUpdate(
+            { _id: idResa }, 
+            { 
+                ...req.body
+             }
+        )   
+        if(!resa) {
+            return res.status(404).json('reservation_not_found')
+        }
+        return res.status(201).json({ message: "Modification de la réservation réussite !" }) 
+    } catch (error) {
+        res.status(501).json({ message: error })
+    }
 
 }
 exports.delete = async (req, res, next) => {
