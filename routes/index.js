@@ -11,13 +11,14 @@ const usersRoute = require('./users')
 const reservationRoute = require('./reservation')
 
 const private = require('../middlewares/authenticate')
+
+const session = require('express-session')
+
  
 
 /* GET home page */
 router.get('/', (req, res) => {
-  res.status(200).render('index', {
-    error: null 
-  });
+  res.status(200).render('index');
 });
 
 /* GET Dashboard page */
