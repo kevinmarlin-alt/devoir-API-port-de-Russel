@@ -12,9 +12,7 @@ const reservationRoute = require('./reservation')
 
 const private = require('../middlewares/authenticate')
 
-const session = require('express-session')
 
- 
 
 /* GET home page */
 router.get('/', (req, res) => {
@@ -24,7 +22,12 @@ router.get('/', (req, res) => {
 /* GET Dashboard page */
 router.get('/dashboard', private,  async (req, res) => {
   try {
-      const reservations = await Reservation.find().sort({ startDate: 1 })
+      //const reservations = await Reservation.find().sort({ startDate: 1 })
+      const reservations = await Reservation.find({ 
+        endDate: {$gte: new Date().toISOString()}, 
+        startDate: {$lte: new Date().toISOString()} 
+      }).sort({ startDate: 1 })
+          
 
       if(!reservations) {
         return res.status(404).json({ message: "Il n'y a pas de réservation." })

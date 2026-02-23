@@ -13,7 +13,6 @@ async function loadCatways() {
     try {
         const res = await fetch(API_URL, { method: "GET" });
         const catways = await res.json();
-        console.log("-->>>", catways)
       
         catwaySelect.innerHTML = '';
         catways.forEach(c => {
