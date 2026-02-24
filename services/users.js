@@ -39,7 +39,7 @@ exports.createOne = async (req, res, next) => {
 }
 
 exports.upDateOne = async (req, res, next) => {
-    const email = req.params.email
+    const email = req.body.email
     const updates = {}
     if(req.body["username"] !== undefined ) {
         updates["username"] = req.body["username"]
