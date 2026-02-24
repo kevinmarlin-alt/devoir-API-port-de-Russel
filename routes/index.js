@@ -68,7 +68,7 @@ router.get('/catways', private, async (req, res) => {
         return res.status(404).json({ message: "Il n'y a pas de catway." });
       }
 
-      res.json( catways )
+      
       res.status(200).render('catways', {
           user: req.session.user, 
           catways
