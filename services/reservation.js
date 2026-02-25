@@ -8,7 +8,8 @@ exports.all = async (req, res, next) => {
     
     try {
         const reservations = await Reservation.find({ catwayNumber: catwaySelected })
-        const catways = await catway.find()
+        //const catways = await catway.find()
+        console.log("---->>>>", reservations)
 
         if(!reservations) {
             return res.status(404).json({ message: "Il n'y a pas de réservations actuellement pour ce catway !"})
@@ -27,7 +28,7 @@ exports.getById = async (req, res, next) => {
 
      try {
         const resa = await Reservation.findOne({ _id: idResa })
-        console.log(resa)
+        
 
         if(!resa) {
             return res.status(404).json({ message: "Reservation_not_found" })

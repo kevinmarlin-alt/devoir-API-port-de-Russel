@@ -1,5 +1,4 @@
 const User = require('../models/user')
-const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 
 exports.login = async (req, res, next) => {
@@ -12,17 +11,16 @@ exports.login = async (req, res, next) => {
         );
 
         if (!user) {
-            return res
-                .status(404)
-                .render("index", {error: "Email ou mot de passe incorrect"});
+            return res.status(401).json({ message: "Identifiants incorrects" });
         }
 
-        const isMatch = bcrypt.compare(password, user.password);
+        const isMatch = await bcrypt.compare(password, user.password);
+        console.log(isMatch)
 
         if (!isMatch) {
             return res
-                .status(403)
-                .render("index", {error: "Email ou mot de passe incorrect"});
+                .status(401)
+                .json({ message: "Identifiants incorrects" });
         }
 
         // Création de la session avec express-session
@@ -32,12 +30,13 @@ exports.login = async (req, res, next) => {
             username: user.username
           };
 
-        return res.status(200).redirect('/dashboard')
+        res.status(200).json({ message: "Connexion réussie" })
+        
      
     } catch (error) {
         return res
             .status(500)
-            .render("index", { error: error.message });
+            .json({ message: error.message });
             
     }
 };
@@ -45,3 +44,5 @@ exports.login = async (req, res, next) => {
 exports.logout = (req, res, next) => {
     return res.status(200).redirect('/')
 }
+
+

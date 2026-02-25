@@ -11,19 +11,23 @@ const usersRoute = require('./users')
 const reservationRoute = require('./reservation')
 
 const private = require('../middlewares/authenticate')
- 
+
+
 
 /* GET home page */
 router.get('/', (req, res) => {
-  res.status(200).render('index', {
-    error: null 
-  });
+  res.status(200).render('index');
 });
 
 /* GET Dashboard page */
 router.get('/dashboard', private,  async (req, res) => {
   try {
-      const reservations = await Reservation.find().sort({ startDate: 1 })
+      //const reservations = await Reservation.find().sort({ startDate: 1 })
+      const reservations = await Reservation.find({ 
+        endDate: {$gte: new Date().toISOString()}, 
+        startDate: {$lte: new Date().toISOString()} 
+      }).sort({ startDate: 1 })
+          
 
       if(!reservations) {
         return res.status(404).json({ message: "Il n'y a pas de réservation." })
@@ -59,12 +63,12 @@ router.get('/users', private, async (req, res) => {
 router.get('/catways', private, async (req, res) => {
   try {
     const catways = await Catway.find().sort({ catwayNumber: 1 })
-    console.log(catways)
+    //console.log(catways)
       if(!catways) {
         return res.status(404).json({ message: "Il n'y a pas de catway." });
       }
 
-      res.json( catways )
+      
       res.status(200).render('catways', {
           user: req.session.user, 
           catways

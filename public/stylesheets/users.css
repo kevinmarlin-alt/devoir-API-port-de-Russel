@@ -1,15 +1,3 @@
-form {
-    /* display: none; */
-}
-
-tbody tr:hover {
-    background-color: #9ebcd8;
+tbody tr{
     cursor: pointer;
 }
-
-#username ~ p,
-#email ~ p {
-    color: red;
-    display: none;
-}
-
