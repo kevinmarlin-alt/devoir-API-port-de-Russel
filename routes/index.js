@@ -63,7 +63,7 @@ router.get('/users', private, async (req, res) => {
 router.get('/catways', private, async (req, res) => {
   try {
     const catways = await Catway.find().sort({ catwayNumber: 1 })
-    console.log(catways)
+    //console.log(catways)
       if(!catways) {
         return res.status(404).json({ message: "Il n'y a pas de catway." });
       }

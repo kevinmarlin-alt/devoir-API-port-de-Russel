@@ -1,5 +1,20 @@
 const Catway = require('../models/catway')
 
+exports.all = async (req, res, next) => {
+    try {
+        const catways = await Catway.find().sort({ catwayNumber: 1 })
+        console.log(catways)
+
+        if(!catways) {
+            return res.status(404).json({ message: "Liste de catways introuvable" })
+        }
+
+        res.status(200).json( catways )
+    } catch (error) {
+        return res.status(501).json({ message: error })
+    }
+}
+
 exports.getById = async (req, res, next) => {
     const catwayNumber = req.params.id
     try {
@@ -24,7 +39,7 @@ exports.add = async (req, res, next) => {
         const catway = new Catway({
             ...req.body
         })
-        console.log(catway)
+        //console.log(catway)
         catway.save()
 
         return res.status(200).json({ message: "Catway enregistré !" })
