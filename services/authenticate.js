@@ -11,16 +11,13 @@ exports.login = async (req, res, next) => {
         );
 
         if (!user) {
-            return res.status(401).json({ message: "Identifiants incorrects" });
+            return res.status(401).json({ success: false, message: "Identifiants incorrects" });
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
-        console.log(isMatch)
 
         if (!isMatch) {
-            return res
-                .status(401)
-                .json({ message: "Identifiants incorrects" });
+            return res.status(401).json({ success: false, message: "Identifiants incorrects" });
         }
 
         // Création de la session avec express-session
@@ -30,19 +27,17 @@ exports.login = async (req, res, next) => {
             username: user.username
           };
 
-        res.status(200).json({ message: "Connexion réussie" })
+        res.status(200).json({ success: true, message: "Connexion réussie" })
         
      
     } catch (error) {
-        return res
-            .status(500)
-            .json({ message: error.message });
-            
+        console.error("Erreur : ", error)
+        res.status(500).json({ success: false, message: "Erreur serveur lors de l'authentification" });
     }
 };
 
 exports.logout = (req, res, next) => {
-    return res.status(200).redirect('/')
+    res.status(200).redirect('/')
 }
 
 

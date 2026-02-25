@@ -3,15 +3,16 @@ const Catway = require('../models/catway')
 exports.all = async (req, res, next) => {
     try {
         const catways = await Catway.find().sort({ catwayNumber: 1 })
-        console.log(catways)
 
         if(!catways) {
-            return res.status(404).json({ message: "Liste de catways introuvable" })
+            return res.status(404).json({ success: false, message: "Liste de catways introuvable" })
         }
 
-        res.status(200).json( catways )
+        res.status(200).json({ success: true, data: catways })
+
     } catch (error) {
-        return res.status(501).json({ message: error })
+        console.error("Erreur : ", error)
+        return res.status(501).json({ success: false, message: "Erreur serveur lors de la recherche de la liste des catways" })
     }
 }
 
@@ -21,13 +22,14 @@ exports.getById = async (req, res, next) => {
         const catway = await Catway.findOne({ catwayNumber: catwayNumber })
 
         if(!catway) {
-            return res.status(404).json({ message: `Catway n°${catwayNumber} introuvabe` })
+            return res.status(404).json({ success: false, message: `Catway n°${catwayNumber} introuvabe` })
         }
 
-        return res.status(200).json( catway )
+        res.status(200).json({ success: true, data: catway })
 
     } catch (error) {
-        return res.status(501).json({ message: error })
+        console.error("Erreur : ", error)
+        res.status(501).json({ success: false, message: "Erreur serveur lors de la recherche du catway" })
     }
 
 }
@@ -39,20 +41,21 @@ exports.add = async (req, res, next) => {
         const catway = new Catway({
             ...req.body
         })
-        //console.log(catway)
-        catway.save()
 
-        return res.status(200).json({ message: "Catway enregistré !" })
+        await catway.save()
+
+        return res.status(200).json({ success: true, message: "Catway enregistré !" })
 
     } catch (error) {
-        return res.status(404).json({ error })
+        console.error("Erreur : ", error)
+        res.status(500).json({ success: false, message: "Erreur serveur lors de l'enregistrement du catway" })
     }
 }
 
 exports.updateOne = async (req, res, next) => {
     const catwayNumber = req.params.id
+
     try {
-    
         const catway = await Catway.findOneAndUpdate(
             { catwayNumber: catwayNumber }, 
             { 
@@ -62,14 +65,14 @@ exports.updateOne = async (req, res, next) => {
         )
 
         if(!catway) {
-            return res.status(404).json('catway_not_found')
+            return res.status(404).json({ success: false, message: `Catway n°${catwayNumber} introuvabe` })
         }
-        return res.status(201).json({ catway })
 
-
+        res.status(201).json({ success: true, data: catway })
 
     } catch (error) {
-        res.status(501).json({ message: error })
+        console.error("Erreur : ", error)
+        res.status(501).json({ success: false, message: "Erreur serveur lors de la mise à jour du catway" })
     }
 
 }
@@ -79,10 +82,11 @@ exports.delete = async (req, res, next) => {
 
     try {
         await Catway.deleteOne({ catwayNumber: catwayNumber })
-        res.status(202).json('Catway supprimé !')
+
+        res.status(202).json({ success: true, message: 'Catway supprimé !' })
         
     } catch (error) {
-        res.status(501).json({ message: error })
-
+        console.error("Erreur : ", error)
+        res.status(501).json({ success: false, message: 'Erreur serveur lors de la suppression du catway' })
     }
 }
