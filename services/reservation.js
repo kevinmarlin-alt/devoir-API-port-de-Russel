@@ -13,7 +13,7 @@ exports.all = async (req, res, next) => {
             return res.status(404).json({ success: false, message: "Il n'y a pas de réservations actuellement pour ce catway !"})
         }
 
-        res.status(200).json({ success: true, data: reservations })
+        res.status(200).json( reservations )
         
     } catch (error) {
         console.error("Erreur : ", error)
@@ -31,7 +31,7 @@ exports.getById = async (req, res, next) => {
             return res.status(404).json({ success: false, message: "Réservation non trouvée" })
         }
 
-        return res.status(200).json({ success: true, data: resa })
+        return res.status(200).json( resa )
 
      } catch (error) {
         console.error("Erreur : ", error)

@@ -1,8 +1,6 @@
 const form = document.querySelector('form')
 const info = document.querySelector('.info-js')
 
-console.log(new Date().toISOString())
-
 form.addEventListener("submit", handleSubmit)
 
 async function handleSubmit(e) {

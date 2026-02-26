@@ -34,8 +34,8 @@ ranges.forEach(range => range.addEventListener('click', handleSelectRange))
     })
     .then(res => res.json())
     .then(data => {
-        document.getElementById('data-username').value = data.user.username
-        document.querySelector("h3 span").innerText = data.user.email
+        document.getElementById('data-username').value = data.username
+        document.querySelector("h3 span").innerText = data.email
 
     })
     .catch(err => console.error(err.message))
@@ -127,7 +127,6 @@ function checkPassword(event) {
 const userForm = document.getElementById('userForm')
 const suppBtn = document.querySelector('form input[type="button"]')
 const passwordInputUser = userForm.querySelector('form input[type="password"]')
-console.log(passwordInputUser)
 
 userForm.addEventListener('submit', handleModifyUser)
 suppBtn.addEventListener('click', handleSuppBtn)

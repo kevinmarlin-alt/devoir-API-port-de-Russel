@@ -9,14 +9,14 @@ exports.getByEmail = async (req, res, next) => {
         const user = await User.findOne({ email: email })
         
         if (!user) {
-            return res.status(404).json({ success: false, message: "Utilisateur non trouvé" });
+            return res.status(404).json({ message: "Utilisateur non trouvé" });
         }
 
-        res.status(200).json({ success: true, data: user })
+        res.status(200).json( user )
  
     } catch (error) {
         console.error("Erreur : ", error)
-        res.status(500).json({ success: false, message: "Erreur serveur lors de la recherche de l'utilisateur" })
+        res.status(500).json({ message: "Erreur serveur lors de la recherche de l'utilisateur" })
     }
 }
 
@@ -30,11 +30,11 @@ exports.createOne = async (req, res, next) => {
         })
         await user.save()
 
-        res.status(200).json({ success: true, message: "Utilisateur enregistré !" })
+        res.status(200).json({ message: "Utilisateur enregistré !" })
 
     } catch (error) {
         console.error("Erreur : ", error)
-        res.status(500).json({ success: false, message: "Erreur serveur lors de l'enregistrement" })
+        res.status(500).json({ message: "Erreur serveur lors de l'enregistrement" })
     }
 }
 
@@ -58,15 +58,15 @@ exports.upDateOne = async (req, res, next) => {
             }
         )
         if(!user) {
-            return res.status(404).json({ success: false, message: "Utilisateur non trouvé" });
+            return res.status(404).json({ message: "Utilisateur non trouvé" });
         }
-        res.status(201).json({ success: true, data: user })
+        res.status(201).json( user )
 
 
 
     } catch (error) {
         console.error("Erreur : ", error)
-        res.status(501).json({ success: false, message: "Erreur serveur lors de l'enregistrement" })
+        res.status(501).json({ message: "Erreur serveur lors de l'enregistrement" })
     }
 }
 
@@ -77,11 +77,11 @@ exports.deleteOne = async (req, res, next) => {
 
         await User.deleteOne({ email: email })
 
-        res.status(200).json({ success: true, message: "Suppression du compte réussit" })
+        res.status(200).json({ message: "Suppression du compte réussit" })
 
     } catch (error) {
         console.error("Erreur : ", error)
-        res.status(501).json({ success: false, message: "Erreur serveur lors de la suppression de l'utilisateur" })
+        res.status(501).json({ message: "Erreur serveur lors de la suppression de l'utilisateur" })
     }
 }
 
