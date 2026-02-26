@@ -23,7 +23,6 @@ ranges.forEach(range => range.addEventListener('click', handleSelectRange))
     const target = e.target
     const rangeParent = target.closest('tr')
     const email = rangeParent.querySelector('td:nth-of-type(2)').innerText
-    console.log(email)
 
     const userForm = document.querySelector('.userForm')
     if(userForm.hasAttribute('hidden')) userForm.removeAttribute('hidden')
@@ -43,9 +42,9 @@ ranges.forEach(range => range.addEventListener('click', handleSelectRange))
 
 /* Formulaire de création d'un utilisteur */ 
 const createUserForm = document.querySelector('#createUserForm')
-const usernameInput = document.getElementById('username')
-const emailInput = document.getElementById('email')
-const passwordInput = document.querySelector('#createUserForm input[type="password"]')
+const usernameInput = document.getElementById('usernameCreate')
+const emailInput = document.getElementById('emailCreate')
+const passwordInput = document.getElementById('passwordCreate')
 
 createUserForm.addEventListener('submit', handleSubmit)
 usernameInput.addEventListener('input', checkUsername)
@@ -53,17 +52,17 @@ emailInput.addEventListener('focusout', checkEmail)
 passwordInput.addEventListener('input', checkPassword)
 
 
-async function handleSubmit(e) {
+function handleSubmit(e) {
     e.preventDefault()
     const playload = Object.fromEntries(new FormData(createUserForm))
 
-    await fetch(`/users/${playload.email}`, {
+    fetch(`/users/${playload.email}`, {
         method: "PUT",
         headers: { "Content-Type": 'application/json' },
         body: JSON.stringify(playload)
     })
-    
-    window.location.reload()
+    .then(window.location.reload())
+        
 }
 
 function checkUsername(event) {
@@ -98,7 +97,6 @@ function checkEmail(event) {
 function checkPassword(event) {
 
     const input = event.target
-    console.log("test", input)
     const regexSpecial = /[#?!@$%^&*-]/
     const regexUpper = /[A-Z]/
     const regexNumber = /[0-9]/
@@ -106,10 +104,8 @@ function checkPassword(event) {
     const hasSpecial = input.value.match(regexSpecial)
     const hasUpper = input.value.match(regexUpper)
     const hasNumber = input.value.match(regexNumber)
-    console.log(hasSpecial, hasUpper)
 
     const infoMaxChar = event.target.parentNode.querySelector('li:nth-of-type(1)')
-    console.log(infoMaxChar)
     input.value.length > 8 ? infoMaxChar.style.color = "green" : infoMaxChar.style.color = "black"
     
     const infoHasSpecial = event.target.parentNode.querySelector('li:nth-of-type(2)')
@@ -145,7 +141,6 @@ function handleModifyUser(e) {
     }
     const email = document.querySelector('.card-header span')
     playload["email"] = email.innerText
-    console.log(playload)
 
     fetch(`/users`, {
         method: 'POST',
@@ -153,20 +148,19 @@ function handleModifyUser(e) {
         body: JSON.stringify(playload)
         
     })  
-    .catch(err => {
+    .then(res => res.json())
+    .then(data => {
         const infoMessage = document.getElementById('info-userForm')
-        infoMessage.innerText = err.message
+        infoMessage.innerText = "Modification enregistré"
         setTimeout(() => {
             infoMessage.innerText = ""
             window.location.reload()
         },2000)
-        
     })
 
 }
 
 function handleSuppBtn() {
-    console.log("test")
     const email = document.querySelector("h3 span").innerHTML
     fetch(`/users/${email}`, {
         method: "DELETE"
