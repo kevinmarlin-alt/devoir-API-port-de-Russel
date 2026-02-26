@@ -3,6 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <meta name="robots" content="nofollow">
+  <meta name="author" content="Kevin Marlin">
+  <meta name="description" content="Application de gestion des réservations de catways du port de Russell">
   <title>Document</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
@@ -43,22 +47,22 @@
             <div class="row row-cols-2">
               
               <div class="col mb-3">
-                <label for="clientName">Client</label>
-                <input class="form-control" type="text" name="clientName" id="newClientName">
+                <label for="newClientName">Client</label>
+                <input class="form-control" type="text" name="clientName" id="newClientName" required>
               </div>
               <div class="col mb-3">
-                <label for="boatName">Bateau</label>
-                <input class="form-control" type="text" name="boatName" id="newBoatName">
+                <label for="newBoatName">Bateau</label>
+                <input class="form-control" type="text" name="boatName" id="newBoatName" required>
               </div>
             </div>
             <div class="row row-cols-2">
               <div class="col mb-3">
-                <label for="startDate">Entrée</label>
-                <input class="form-control" type="date" name="startDate" id="newStartDate">
+                <label for="newStartDate">Entrée</label>
+                <input class="form-control" type="date" name="startDate" id="newStartDate" required>
               </div>
               <div class="col mb-3">
-                <label for="endDate">Entrée</label>
-                <input class="form-control" type="date" name="endDate" id="newEndDate">
+                <label for="newEndDate">Entrée</label>
+                <input class="form-control" type="date" name="endDate" id="newEndDate" required>
               </div>
             </div>
             <input class="btn btn-primary me-2" type="submit" value="Ajouter">
@@ -99,20 +103,20 @@
               <input type="hidden" name="_id" id="reservationId">
               <!-- <input type="hidden" name="catwayNumber" id="catwayResaNumber"> -->
               <div class="mb-4">
-                <label for="clientName" class="form-label">Client</label>
+                <label for="clientNameUpdate" class="form-label">Client</label>
                 <input type="text" name="clientName" id="clientNameUpdate" class="form-control">
               </div>
               <div class="mb-4">
-                <label for="boatName" class="form-label">Bateau</label>
+                <label for="boatNameUpdate" class="form-label">Bateau</label>
                 <input type="text" name="boatName" id="boatNameUpdate" class="form-control">
               </div>
               <div class="row row-cols-2">
                 <div class="col mb-4">
-                  <label for="startDate" class="form-label">Entrée</label>
+                  <label for="startDateUpdate" class="form-label">Entrée</label>
                   <input type="date" name="startDate" id="startDateUpdate" class="form-control">
                 </div>
                 <div class="col mb-4">
-                  <label for="endDate" class="form-label">Sortie</label>
+                  <label for="endDateUpdate" class="form-label">Sortie</label>
                   <input type="date" name="endDate" id="endDateUpdate" class="form-control">
                 </div>
               </div>
