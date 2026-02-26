@@ -8,18 +8,16 @@ exports.all = async (req, res, next) => {
     
     try {
         const reservations = await Reservation.find({ catwayNumber: catwaySelected })
-        //const catways = await catway.find()
-        console.log("---->>>>", reservations)
 
         if(!reservations) {
-            return res.status(404).json({ message: "Il n'y a pas de réservations actuellement pour ce catway !"})
+            return res.status(404).json({ success: false, message: "Il n'y a pas de réservations actuellement pour ce catway !"})
         }
-        return res.status(200).json( reservations )
-        
+
+        res.status(200).json( reservations )
         
     } catch (error) {
-        console.error(error)
-        return res.status(500).send("Erreur lors de la récupération des réservations");
+        console.error("Erreur : ", error)
+        return res.status(500).json({ success: false, message: "Erreur serveur lors de la récupération des réservations" });
     }
 }
 
@@ -29,16 +27,15 @@ exports.getById = async (req, res, next) => {
      try {
         const resa = await Reservation.findOne({ _id: idResa })
         
-
         if(!resa) {
-            return res.status(404).json({ message: "Reservation_not_found" })
+            return res.status(404).json({ success: false, message: "Réservation non trouvée" })
         }
 
         return res.status(200).json( resa )
 
      } catch (error) {
-        console.error(error)
-        return res.status(501).send("Erreur lors de la récupération des informations");
+        console.error("Erreur : ", error)
+        return res.status(501).json({ success: false, message: "Erreur serveur lors de la récupération des informations" });
      }
 }
 
@@ -50,14 +47,14 @@ exports.add = async (req, res, next) => {
             ...req.body,
             catwayNumber: id
         })
-        console.log(resa)
 
         await resa.save()
         
-        return res.status(200).json({ message: "Réservation enregistrée !" })
+        res.status(200).json({ success: true, message: "Réservation enregistrée !" })
 
     } catch (error) {
-        return res.status(501).send("Erreur lors de l'ajout de la réservation");
+        console.error("Erreur : ", error)
+        res.status(501).json({ success: false, message: "Erreur serveur lors de l'ajout de la réservation" });
     }
     
 }
@@ -73,11 +70,14 @@ exports.update = async (req, res, next) => {
              }
         )   
         if(!resa) {
-            return res.status(404).json('reservation_not_found')
+            return res.status(404).json({ success: false, message: "Réservation non trouvée" })
         }
-        return res.status(201).json({ message: "Modification de la réservation réussite !" }) 
+
+        res.status(201).json({ success: true, message: "Modification de la réservation réussite !" }) 
+
     } catch (error) {
-        res.status(501).json({ message: error })
+        console.error("Erreur : ", error)
+        res.status(501).json({ success: false, message: "Erreur serveur lors de la mise à jour de la réservation" });
     }
 
 }
@@ -87,9 +87,10 @@ exports.delete = async (req, res, next) => {
     try {
         await Reservation.deleteOne({ _id: idResa})
 
-        res.status(200).json({ message: "Suppression de la réservation réussite" })
+        res.status(200).json({ success: true, message: "Suppression de la réservation réussite" })
 
     } catch (error) {
-        return res.status(501).json({ message: error })
+        console.error("Erreur : ", error)
+        res.status(501).json({ success: false, message: "Erreur serveur lors de la suppression de la réservation" });
     }
 }

@@ -52,7 +52,10 @@ function handleClickRange(e) {
         document.querySelector('.card h3 span').innerText = data.catwayNumber
         document.querySelector('#catwayStateUpdate').value = data.catwayState
     })
-    .catch(err => info.innerText = err.message )
+    .catch(err => {
+        console.error(err)
+        info.innerText = err.message 
+    })
 }
 
 function handleDeleteBtn() {
@@ -61,7 +64,10 @@ function handleDeleteBtn() {
         method: "DELETE"
     })
     .then(window.location.reload())
-    .catch(err => info.innerText = err.message )
+    .catch(err => {
+        console.error(err)
+        info.innerText = err.message 
+    })
 }
 
 function handleSubmitcreateCatway(e) {

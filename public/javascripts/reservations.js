@@ -44,6 +44,7 @@ function handleSubmitNewResaForm(e) {
     headers: { "Content-Type": 'application/json' },
     body: JSON.stringify(playload)
   })
+  .then(window.location.reload())
   .catch(err => document.querySelector('.info-newResa').innerText = "Erreur lors de la création de la réservation.")
   
 }
@@ -63,12 +64,15 @@ function handleDisplayNewResaForm(e) {
 ====================== */
 async function loadReservations() {
 
+  const cardHeader = document.querySelector('.card-header')
+  
   resaCard.setAttribute('hidden', "")
   newResaCard.setAttribute('hidden', "")
-
+  
   newResaBtn.innerText = "Ajouter une nouvelle réservation"
   
   selectedCatway = catwaySelect.value;
+  cardHeader.innerHTML = `CATWAY n° ${selectedCatway}`
   
   const res = await fetch(`/catways/${selectedCatway}/reservations`, {
     method: "GET"
@@ -94,13 +98,8 @@ async function loadReservations() {
         <td>${r.boatName}</td>
         <td>${new Date(r.startDate).toLocaleDateString()}</td>
         <td>${new Date(r.endDate).toLocaleDateString()}</td>
-
       `;
-        // <td>
-        //   <button onclick="editReservation('${r._id}')">✏️</button>
-        //   <button onclick="deleteReservation('${r._id}')">🗑️</button>
-        // </td>
-      
+
       reservationsTable.appendChild(tr);
     });
 
@@ -139,7 +138,6 @@ function handleDisplayResaInfo(e) {
     
 
     resaForm.querySelector('#reservationId').value = data._id
-    //resaForm.querySelector('#catwayResaNumber').value = data.catwayNumber
     resaForm.querySelector('#clientNameUpdate').value = data.clientName
     resaForm.querySelector('#boatNameUpdate').value = data.boatName
     resaForm.querySelector('#startDateUpdate').value = data.startDate.split('T')[0]
@@ -158,6 +156,7 @@ function handleSubmitResaForm(e) {
     headers: { "Content-Type": 'application/json' },
     body: JSON.stringify(playload)
   })
+  .then(window.location.reload())
   .catch(err => document.querySelector('.info-newResa').innerText = "Erreur lors de la création de la réservation.")
   
 }
@@ -170,74 +169,5 @@ function handleDeleteResa() {
   .then(window.location.reload())
   
 }
-
-
-
-
-/* ======================
-   SUBMIT FORM
-====================== */
-//form.addEventListener('submit', async (e) => {
-//  e.preventDefault();
-//
-//  const id = document.getElementById('reservationId').value;
-//
-//  const data = {
-//    clientName: clientName.value,
-//    boatName: boatName.value,
-//    startDate: startDate.value,
-//    endDate: endDate.value
-//  };
-//
-//  let url = `/catways/${selectedCatway}/reservations`;
-//  let method = 'POST';
-//
-//  if (id) {
-//    url += `/${id}`;
-//    method = 'PUT';
-//  }
-//
-//  await fetch(url, {
-//    method,
-//    headers: { 'Content-Type': 'application/json' },
-//    body: JSON.stringify(data)
-//  });
-//
-//  form.reset();
-//  reservationId.value = '';
-//  loadReservations();
-//});
-
-/* ======================
-   EDIT
-====================== */
-//async function editReservation(id) {
-//  const res = await fetch(
-//    `/catways/${selectedCatway}/reservations/${id}`
-//  );
-//  const r = await res.json();
-//  console.log(r)
-//  reservationId.value = r._id;
-//  clientName.value = r.clientName;
-//  boatName.value = r.boatName;
-//  startDate.value = r.startDate.split('T')[0];
-//  endDate.value = r.endDate.split('T')[0];
-//}
-//
-///* ======================
-//   DELETE
-//====================== */
-//async function deleteReservation(id) {
-//  if (!confirm('Supprimer cette réservation ?')) return;
-//
-//  await fetch(
-//    `/catways/${selectedCatway}/reservations/${id}`,
-//    { method: 'DELETE' }
-//  );
-//
-//  loadReservations();
-//}
-
-
 
 loadCatways();
