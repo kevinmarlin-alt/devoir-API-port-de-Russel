@@ -1,10 +1,12 @@
 const User = require('../models/user')
 const bcrypt = require('bcryptjs')
 
+const usersServices = require('../services/users.services')
+
 exports.getByEmail = async (req, res) => {
     const email = req.params.email
     try {
-        const user = await User.findOne({ email: email })
+        const user = await usersServices.getByEmail(email) 
         
         if (!user) {
             return res.status(404).json({ message: "Utilisateur non trouvé" });
@@ -25,7 +27,7 @@ exports.createOne = async (req, res) => {
         const user = new User({
             ...req.body
         })
-        await user.save()
+        await usersServices.save(user)
 
         res.status(200).json({ message: "Utilisateur enregistré !" })
 
@@ -48,12 +50,8 @@ exports.upDateOne = async (req, res) => {
 
     try {
 
-        const user = await User.findOneAndUpdate(
-            {email: email}, {
-                $set: updates,
-                updatedAt: Date.now()
-            }
-        )
+        const user = await usersServices.upDateOne(email, { $set: updates, updatedAt: Date.now() }) 
+            
         if(!user) {
             return res.status(404).json({ message: "Utilisateur non trouvé" });
         }
@@ -72,7 +70,7 @@ exports.delete = async (req, res) => {
 
     try {
 
-        await User.deleteOne({ email: email })
+        await usersServices.delete(email) 
 
         res.status(200).json({ message: "Suppression du compte réussit" })
 

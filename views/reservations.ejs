@@ -8,6 +8,7 @@
   <meta name="author" content="Kevin Marlin">
   <meta name="description" content="Application de gestion des réservations de catways du port de Russell">
   <title>Document</title>
+  <link rel="stylesheet" href="stylesheets/style.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <body>
@@ -28,10 +29,17 @@
     <div class="mb-2">
       <h2>Réservations</h2>
       <p>Selectionner un catway</p>
-      <select class="me-2" name="catwayNumberSelect" id="catwaySelect">
-
-      </select>
-      <button class="btn btn-primary" id="loadReservations">Charger</button>
+      <!-- Liste de catways -->
+      <% if (catways.length === 0) { %>
+        <p class="text-danger">Aucun catway enregistré.</p>
+      <% } else { %>
+        <select class="me-2" name="catwayNumberSelect" id="catwaySelect">
+          <% catways.forEach(catway => { %>
+            <option value="<%= catway.catwayNumber %>">Catway <%= catway.catwayNumber %></option>
+          <% }) %>
+        </select>
+        <button class="btn btn-primary" id="loadReservations">Charger</button>
+      <% } %>
     </div>
 
 

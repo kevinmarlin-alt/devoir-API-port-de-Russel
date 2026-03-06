@@ -28,7 +28,7 @@ ranges.forEach(range => range.addEventListener('click', handleSelectRange))
     if(userForm.hasAttribute('hidden')) userForm.removeAttribute('hidden')
 
    
-    fetch(`/users/${email}`, {
+    fetch(`/api/users/${email}`, {
         method: 'GET'
     })
     .then(res => res.json())
@@ -56,12 +56,13 @@ function handleSubmit(e) {
     e.preventDefault()
     const playload = Object.fromEntries(new FormData(createUserForm))
 
-    fetch(`/users/${playload.email}`, {
-        method: "PUT",
+    fetch(`/api/users`, {
+        method: "POST",
         headers: { "Content-Type": 'application/json' },
         body: JSON.stringify(playload)
     })
     .then(window.location.reload())
+    .catch(err => console.error(err))
         
 }
 
@@ -131,7 +132,7 @@ passwordInputUser.addEventListener('input', checkPassword)
 
 function handleModifyUser(e) {
     e.preventDefault()
-    
+
     const playload = {}
     const formData = new FormData(userForm)
     for(let [key, value] of formData) {
@@ -142,8 +143,8 @@ function handleModifyUser(e) {
     const email = document.querySelector('.card-header span')
     playload["email"] = email.innerText
 
-    fetch(`/users`, {
-        method: 'POST',
+    fetch(`/api/users/${email}`, {
+        method: 'PUT',
         headers: { "Content-Type": 'application/json' },
         body: JSON.stringify(playload)
         
@@ -162,7 +163,7 @@ function handleModifyUser(e) {
 
 function handleSuppBtn() {
     const email = document.querySelector("h3 span").innerHTML
-    fetch(`/users/${email}`, {
+    fetch(`/api/users/${email}`, {
         method: "DELETE"
     })
     .then(res => res.json())

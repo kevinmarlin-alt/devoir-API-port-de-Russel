@@ -1,11 +1,10 @@
-const express = require('express')
 const Reservation = require('../models/reservation')
+const reservationServices = require('../services/reservations.services')
 
 exports.all = async (req, res) => {
-    const catwaySelected = req.params.id
-    
+    const catwayNumber = req.params.id
     try {
-        const reservations = await Reservation.find({ catwayNumber: catwaySelected })
+        const reservations = await reservationServices.findAll(catwayNumber) 
 
         if(!reservations) {
             return res.status(404).json({ success: false, message: "Il n'y a pas de réservations actuellement pour ce catway !"})
@@ -20,10 +19,10 @@ exports.all = async (req, res) => {
 }
 
 exports.getById = async (req, res) => {
-     const idResa = req.params.idReservation
+     const _id = req.params.idReservation
 
      try {
-        const resa = await Reservation.findOne({ _id: idResa })
+        const resa = await reservationServices.getById(_id) 
         
         if(!resa) {
             return res.status(404).json({ success: false, message: "Réservation non trouvée" })
@@ -46,7 +45,7 @@ exports.add = async (req, res) => {
             catwayNumber: id
         })
 
-        await resa.save()
+        await reservationServices.add(resa)
         
         res.status(200).json({ success: true, message: "Réservation enregistrée !" })
 
@@ -58,16 +57,12 @@ exports.add = async (req, res) => {
 }
 
 exports.update = async (req, res) => {
-    const idResa = req.params.idReservation
+    const _id = req.params.idReservation
    
     try {
 
-        const resa = await Reservation.findOneAndUpdate(
-            { _id: idResa }, 
-            { 
-                ...req.body
-             }
-        )   
+        const resa = await reservationServices.findOneAndUpdate(_id, { ...req.body})
+  
         if(!resa) {
             return res.status(404).json({ success: false, message: "Réservation non trouvée" })
         }
@@ -82,10 +77,10 @@ exports.update = async (req, res) => {
 }
 
 exports.delete = async (req, res) => {
-    const idResa = req.params.idReservation
+    const _id = req.params.idReservation
 
     try {
-        await Reservation.deleteOne({ _id: idResa})
+        await reservationServices.delete(_id)
 
         res.status(200).json({ success: true, message: "Suppression de la réservation réussite" })
 

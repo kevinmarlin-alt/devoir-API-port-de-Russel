@@ -5,6 +5,7 @@ const ranges = document.querySelectorAll('tbody tr')
 const deleteBtn = document.querySelector('#catwaysForm input[type="button"]')
 const catwaysForm = document.querySelector('#catwaysForm')
 const info = document.querySelector('#info-catwaysForm')
+const info_catwayForm = document.querySelector('#info-catwayForm')
 const createCatwayForm = document.getElementById('createCatwayForm')
 
 newCatwayBtn.addEventListener('click', displayNewCatwayForm)
@@ -44,7 +45,7 @@ function handleClickRange(e) {
     const catwayForm = document.querySelector('.catwayForm')
     if(catwayForm.hasAttribute('hidden')) catwayForm.removeAttribute('hidden')
 
-    fetch(`/catways/${catwayNumberSelected}`, {
+    fetch(`/api/catways/${catwayNumberSelected}`, {
         method: "GET"
     })
     .then(res => res.json())
@@ -60,12 +61,11 @@ function handleClickRange(e) {
 
 function handleDeleteBtn() {
 
-    fetch(`/catways/${catwayNumberSelected}`, {
+    fetch(`/api/catways/${catwayNumberSelected}`, {
         method: "DELETE"
     })
     .then(window.location.reload())
     .catch(err => {
-        console.error(err)
         info.innerText = err.message 
     })
 }
@@ -74,9 +74,8 @@ function handleSubmitcreateCatway(e) {
     e.preventDefault()
     const playload = Object.fromEntries(new FormData(createCatwayForm))
     playload.catwayNumber = playload.catwayNumber
-    console.log(playload)
 
-    fetch(`/catways`,{ 
+    fetch(`/api/catways`,{ 
         method: "POST",
         headers: { "Content-Type": 'application/json' },
         body: JSON.stringify(playload)
@@ -91,11 +90,11 @@ function handleSubmit(e) {
     e.preventDefault()
     const playload = Object.fromEntries(new FormData(catwaysForm))
 
-    fetch(`/catways/${catwayNumberSelected}`,{ 
+    fetch(`/api/catways/${catwayNumberSelected}`,{ 
         method: "PUT",
         headers: { "Content-Type": 'application/json' },
         body: JSON.stringify(playload)
     })
     .then(window.location.reload())
-    .catch(err => info.innerText = err.message )
+    .catch(err => info_catwayForm.innerText = err.message )
 }

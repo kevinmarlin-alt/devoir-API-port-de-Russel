@@ -18,7 +18,7 @@ const bcrypt = require('bcryptjs')
  *           description: Nom de l'utilisateur
  *         email:
  *           type: string
- *           description: Email de l'utilisateur
+ *           description: Email de l'utilisateur au format exemple@russell-port.fr
  *         password:
  *           type: string
  *           description: Mot de passe de l'utilisateur (doit être haché)
@@ -28,13 +28,13 @@ const User = new Schema({
     username: {
         type: String,
         trim: true,
-        required: [true, 'Le nom est requis'],
+        required: true,
         match: /^[\p{L}](?:[\p{L} '-]*[\p{L}])$/u
     },
     email: {
         type: String,
         trim: true,
-        required: [true, "L'email est requis"],
+        required: true,
         unique: true,
         lowercase: true,
         match: /\b[A-Za-z0-9._%+-]+@russell-port\.fr\b/
@@ -42,7 +42,7 @@ const User = new Schema({
     password: {
         type: String,
         trim: true,
-        required: [true, "Le mot de pass est requis"],
+        required: true,
         minLength: 8,
         match: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
     },

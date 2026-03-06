@@ -1,5 +1,5 @@
 const express = require('express')
-const authenticateService = require('../services/authenticate')
+const authenticateService = require('../../controllers/authenticate.controllers')
 
 const router = express.Router()
 

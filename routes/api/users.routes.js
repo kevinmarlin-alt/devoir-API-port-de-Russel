@@ -1,6 +1,6 @@
 const express = require('express');
-const usersServices = require('../services/users');
-const privateAuth = require('../middlewares/authenticate')
+const usersControllers = require('../../controllers/users.controllers');
+const privateAuth = require('../../middlewares/authenticate')
 
 const router = express.Router();
 
@@ -41,10 +41,10 @@ const router = express.Router();
  *              type: string
  *              example: "Erreur interne du serveur"
  */
-router.get('/:email', privateAuth, usersServices.getByEmail)
-router.post('/', privateAuth, usersServices.createOne)
-router.put('/:email', privateAuth, usersServices.upDateOne)
-router.delete('/:email', privateAuth, usersServices.delete)
+router.get('/:email', privateAuth, usersControllers.getByEmail)
+router.post('/', privateAuth, usersControllers.createOne)
+router.put('/:email', privateAuth, usersControllers.upDateOne)
+router.delete('/:email', privateAuth, usersControllers.delete)
 
 
 module.exports = router;

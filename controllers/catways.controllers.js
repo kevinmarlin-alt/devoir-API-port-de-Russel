@@ -1,15 +1,14 @@
-const express = require('express')
-const Catway = require('../models/catway')
+const catwaysServices = require('../services/catways.services')
 
 exports.all = async (req, res) => {
     try {
-        const catways = await Catway.find().sort({ catwayNumber: 1 })
+        const catways = await catwaysServices.findAll()
 
         if(!catways) {
             return res.status(404).json({ message: "Liste de catways introuvable" })
         }
 
-        res.status(200).json( catways )
+        res.status(200).json(catways)
 
     } catch (error) {
         console.error("Erreur : ", error)
@@ -20,7 +19,7 @@ exports.all = async (req, res) => {
 exports.getById = async (req, res) => {
     const catwayNumber = req.params.id
     try {
-        const catway = await Catway.findOne({ catwayNumber: catwayNumber })
+        const catway = await catwaysServices.findOne(catwayNumber)
 
         if(!catway) {
             return res.status(404).json({ message: `Catway n°${catwayNumber} introuvable` })
@@ -35,6 +34,7 @@ exports.getById = async (req, res) => {
 
 }
 
+const Catway = require('../models/catway')
 exports.add = async (req, res) => {
     delete req.body._id
     
@@ -43,7 +43,7 @@ exports.add = async (req, res) => {
             ...req.body
         })
 
-        await catway.save()
+        await catwaysServices.save(catway)
 
         return res.status(200).json({ message: "Catway enregistré !" })
 
@@ -57,8 +57,7 @@ exports.updateOne = async (req, res) => {
     const catwayNumber = req.params.id
 
     try {
-        const catway = await Catway.findOneAndUpdate(
-            { catwayNumber: catwayNumber }, 
+        const catway = await catwaysServices.findOneAndUpdate(catwayNumber , 
             { 
                 catwayType: req.body.catwayType,
                 catwayState: req.body.catwayState
@@ -82,7 +81,7 @@ exports.delete = async (req, res) => {
     const catwayNumber = req.params.id 
 
     try {
-        await Catway.deleteOne({ catwayNumber: catwayNumber })
+        await catwaysServices.deleteOne(catwayNumber)
 
         res.status(202).json({ message: 'Catway supprimé !' })
         
