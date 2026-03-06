@@ -1,9 +1,7 @@
 const User = require('../models/user')
 const bcrypt = require('bcryptjs')
 
-
-// callback afficher un user
-exports.getByEmail = async (req, res, next) => {
+exports.getByEmail = async (req, res) => {
     const email = req.params.email
     try {
         const user = await User.findOne({ email: email })
@@ -20,8 +18,7 @@ exports.getByEmail = async (req, res, next) => {
     }
 }
 
-// callback ajouter un user
-exports.createOne = async (req, res, next) => {
+exports.createOne = async (req, res) => {
     delete req.body._id
     
     try {
@@ -38,7 +35,7 @@ exports.createOne = async (req, res, next) => {
     }
 }
 
-exports.upDateOne = async (req, res, next) => {
+exports.upDateOne = async (req, res) => {
     const email = req.body.email
     const updates = {}
     if(req.body["username"] !== undefined ) {
@@ -70,7 +67,7 @@ exports.upDateOne = async (req, res, next) => {
     }
 }
 
-exports.deleteOne = async (req, res, next) => {
+exports.delete = async (req, res) => {
     const email = req.params.email
 
     try {

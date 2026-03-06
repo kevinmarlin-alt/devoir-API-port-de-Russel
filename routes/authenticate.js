@@ -1,9 +1,17 @@
 const express = require('express')
-const router = express.Router()
 const authenticateService = require('../services/authenticate')
-//const private = require('../middlewares/private')
 
+const router = express.Router()
+
+
+/**
+ * @swagger
+ */
 router.post('/login', authenticateService.login)
+
+/**
+ * @swagger
+ */
 router.get('/logout', authenticateService.logout)
 
 

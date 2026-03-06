@@ -1,28 +1,22 @@
 const express = require('express');
 const router = express.Router();
-
 const Reservation = require('../models/reservation')
 const User = require('../models/user')
 const Catway = require('../models/catway')
-
 const authentitaceRoute = require('./authenticate')
 const catwayRoute = require('./catways')
 const usersRoute = require('./users')
 const reservationRoute = require('./reservation')
-
-const private = require('../middlewares/authenticate')
-
+const privateAuth = require('../middlewares/authenticate');
 
 
-/* GET home page */
 router.get('/', (req, res) => {
   res.status(200).render('index');
 });
 
-/* GET Dashboard page */
-router.get('/dashboard', private,  async (req, res) => {
+
+router.get('/dashboard', privateAuth,  async (req, res) => {
   try {
-      //const reservations = await Reservation.find().sort({ startDate: 1 })
       const reservations = await Reservation.find({ 
         endDate: {$gte: new Date().toISOString()}, 
         startDate: {$lte: new Date().toISOString()} 
@@ -42,8 +36,8 @@ router.get('/dashboard', private,  async (req, res) => {
   }
 })
 
-/* GET Users page */
-router.get('/users', private, async (req, res) => {
+
+router.get('/users', privateAuth, async (req, res) => {
   try {
       const users = await User.find().sort({ username: 1 })
       if (!users) {
@@ -59,11 +53,11 @@ router.get('/users', private, async (req, res) => {
   }
 })
 
-/* GET Catways page */
-router.get('/catways', private, async (req, res) => {
+
+router.get('/catways', privateAuth, async (req, res) => {
   try {
     const catways = await Catway.find().sort({ catwayNumber: 1 })
-    //console.log(catways)
+ 
       if(!catways) {
         return res.status(404).json({ message: "Il n'y a pas de catway." });
       }
@@ -79,19 +73,18 @@ router.get('/catways', private, async (req, res) => {
   }
 })
 
-/* GET reservations page */
-router.get('/reservations', private, (req, res) => {
+
+router.get('/reservations', privateAuth, (req, res) => {
   res.render('reservations', {
       user: req.session.user
     })
 })
 
-
-
-/* Middleware */
 router.use('/', authentitaceRoute)
-router.use('/catways', private, catwayRoute)
-router.use('/catways', private, reservationRoute)
-router.use('/users', private, usersRoute)
+router.use('/catways', privateAuth, catwayRoute)
+router.use('/catways', privateAuth, reservationRoute)
+router.use('/users', privateAuth, usersRoute)
+
+
 
 module.exports = router;

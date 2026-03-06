@@ -1,14 +1,13 @@
 const express = require('express');
+const reservationService = require('../services/reservation')
+const privateAuth = require('../middlewares/authenticate')
+
 const router = express.Router();
 
-const reservationService = require('../services/reservation')
-const private = require('../middlewares/authenticate')
-
-
-router.get('/:id/reservations', private, reservationService.all)
-router.get('/:id/reservations/:idReservation', private, reservationService.getById)
-router.post('/:id/reservations', private, reservationService.add)
-router.put('/:id/reservations/:idReservation', private, reservationService.update)
-router.delete('/:id/reservations/:idReservation', private, reservationService.delete)
+router.get('/:id/reservations', privateAuth, reservationService.all)
+router.get('/:id/reservations/:idReservation', privateAuth, reservationService.getById)
+router.post('/:id/reservations', privateAuth, reservationService.add)
+router.put('/:id/reservations/:idReservation', privateAuth, reservationService.update)
+router.delete('/:id/reservations/:idReservation', privateAuth, reservationService.delete)
 
 module.exports = router;

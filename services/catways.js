@@ -1,6 +1,7 @@
+const express = require('express')
 const Catway = require('../models/catway')
 
-exports.all = async (req, res, next) => {
+exports.all = async (req, res) => {
     try {
         const catways = await Catway.find().sort({ catwayNumber: 1 })
 
@@ -16,7 +17,7 @@ exports.all = async (req, res, next) => {
     }
 }
 
-exports.getById = async (req, res, next) => {
+exports.getById = async (req, res) => {
     const catwayNumber = req.params.id
     try {
         const catway = await Catway.findOne({ catwayNumber: catwayNumber })
@@ -34,7 +35,7 @@ exports.getById = async (req, res, next) => {
 
 }
 
-exports.add = async (req, res, next) => {
+exports.add = async (req, res) => {
     delete req.body._id
     
     try {
@@ -52,7 +53,7 @@ exports.add = async (req, res, next) => {
     }
 }
 
-exports.updateOne = async (req, res, next) => {
+exports.updateOne = async (req, res) => {
     const catwayNumber = req.params.id
 
     try {
@@ -77,7 +78,7 @@ exports.updateOne = async (req, res, next) => {
 
 }
 
-exports.delete = async (req, res, next) => {
+exports.delete = async (req, res) => {
     const catwayNumber = req.params.id 
 
     try {

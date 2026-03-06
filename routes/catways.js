@@ -1,13 +1,13 @@
 const express = require('express');
+const catwayService = require('../services/catways')
+const privateAuth = require('../middlewares/authenticate')
+
 const router = express.Router();
 
-const catwayService = require('../services/catways')
-const private = require('../middlewares/authenticate')
-
-router.get('/all', private, catwayService.all)
-router.get('/:id', private, catwayService.getById)
-router.post('/', private, catwayService.add)
-router.put('/:id', private, catwayService.updateOne)
-router.delete('/:id', private, catwayService.delete)
+router.get('/all', privateAuth, catwayService.all)
+router.get('/:id', privateAuth, catwayService.getById)
+router.post('/', privateAuth, catwayService.add)
+router.put('/:id', privateAuth, catwayService.updateOne)
+router.delete('/:id', privateAuth, catwayService.delete)
 
 module.exports = router;

@@ -1,7 +1,7 @@
 const User = require('../models/user')
 const bcrypt = require('bcryptjs')
 
-exports.login = async (req, res, next) => {
+exports.login = async (req, res) => {
     const { email, password } = req.body;
 
     try {
@@ -36,8 +36,14 @@ exports.login = async (req, res, next) => {
     }
 };
 
-exports.logout = (req, res, next) => {
-    res.status(200).redirect('/')
+exports.logout = (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error("Erreur lors de la déconnexion : ", err);
+            return res.status(500).json({ success: false, message: "Erreur serveur lors de la déconnexion" });
+        }
+        res.status(200).redirect('/')
+    })
 }
 
 

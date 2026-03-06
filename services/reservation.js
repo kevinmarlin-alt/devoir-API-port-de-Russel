@@ -1,9 +1,7 @@
 const express = require('express')
-
 const Reservation = require('../models/reservation')
-const catway = require('../models/catway')
 
-exports.all = async (req, res, next) => {
+exports.all = async (req, res) => {
     const catwaySelected = req.params.id
     
     try {
@@ -21,7 +19,7 @@ exports.all = async (req, res, next) => {
     }
 }
 
-exports.getById = async (req, res, next) => {
+exports.getById = async (req, res) => {
      const idResa = req.params.idReservation
 
      try {
@@ -39,7 +37,7 @@ exports.getById = async (req, res, next) => {
      }
 }
 
-exports.add = async (req, res, next) => {
+exports.add = async (req, res) => {
     const id = req.params.id
 
     try {
@@ -58,7 +56,8 @@ exports.add = async (req, res, next) => {
     }
     
 }
-exports.update = async (req, res, next) => {
+
+exports.update = async (req, res) => {
     const idResa = req.params.idReservation
    
     try {
@@ -81,7 +80,8 @@ exports.update = async (req, res, next) => {
     }
 
 }
-exports.delete = async (req, res, next) => {
+
+exports.delete = async (req, res) => {
     const idResa = req.params.idReservation
 
     try {
