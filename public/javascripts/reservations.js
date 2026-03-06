@@ -4,21 +4,21 @@ const catwaySelect = document.getElementById('catwaySelect');
 /* ======================
    CHARGER CATWAYS
 ====================== */
-async function loadCatways() {
-    
-  const res = await fetch('/catways/all', { method: "GET" });
-  const catways = await res.json();
-
-  catwaySelect.innerHTML = '';
-  catways.forEach(c => {
-    const opt = document.createElement('option');
-    opt.value = c.catwayNumber;
-    opt.textContent = `Catway ${c.catwayNumber}`;
-    catwaySelect.appendChild(opt);
-  });
-
- 
-}
+//async function loadCatways() {
+//    
+//  const res = await fetch('/api/catways/all', { method: "GET" });
+//  const catways = await res.json();
+//
+//  catwaySelect.innerHTML = '';
+//  catways.forEach(c => {
+//    const opt = document.createElement('option');
+//    opt.value = c.catwayNumber;
+//    opt.textContent = `Catway ${c.catwayNumber}`;
+//    catwaySelect.appendChild(opt);
+//  });
+//
+// 
+//}
 
 const loadResaBtn = document.getElementById('loadReservations')
 const resaCard = document.querySelector('.resaCard')
@@ -37,9 +37,8 @@ function handleSubmitNewResaForm(e) {
   e.preventDefault()
   const playload = Object.fromEntries(new FormData(newResaForm))
   playload.catwayNumber = selectedCatway
-  console.log(playload)
 
-  fetch(`/catways/${selectedCatway}/reservations`, {
+  fetch(`/api/catways/${selectedCatway}/reservations`, {
     method: "POST",
     headers: { "Content-Type": 'application/json' },
     body: JSON.stringify(playload)
@@ -74,7 +73,7 @@ async function loadReservations() {
   selectedCatway = catwaySelect.value;
   cardHeader.innerHTML = `CATWAY n° ${selectedCatway}`
   
-  const res = await fetch(`/catways/${selectedCatway}/reservations`, {
+  const res = await fetch(`/api/catways/${selectedCatway}/reservations`, {
     method: "GET"
   });
   
@@ -130,7 +129,7 @@ function handleDisplayResaInfo(e) {
 
   if(resaCard.hasAttribute('hidden')) resaCard.removeAttribute('hidden')
 
-  fetch(`/catways/${selectedCatway}/reservations/${resaSelected}`, {
+  fetch(`/api/catways/${selectedCatway}/reservations/${resaSelected}`, {
     method: "GET"
   })
   .then(res => res.json())
@@ -149,9 +148,8 @@ function handleDisplayResaInfo(e) {
 function handleSubmitResaForm(e) {
   e.preventDefault()
   const playload = Object.fromEntries(new FormData(resaForm))
-  console.log(`/catways/${selectedCatway}/reservations/${resaSelected}`)
   
-  fetch(`/catways/${selectedCatway}/reservations/${resaSelected}`, {
+  fetch(`/api/catways/${selectedCatway}/reservations/${resaSelected}`, {
     method: "PUT",
     headers: { "Content-Type": 'application/json' },
     body: JSON.stringify(playload)
@@ -163,11 +161,11 @@ function handleSubmitResaForm(e) {
 
 function handleDeleteResa() {
 
-  fetch(`/catways/${selectedCatway}/reservations/${resaSelected}`, {
+  fetch(`/api/catways/${selectedCatway}/reservations/${resaSelected}`, {
     method: "DELETE"
   })
   .then(window.location.reload())
   
 }
 
-loadCatways();
+//loadCatways();

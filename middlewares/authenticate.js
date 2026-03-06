@@ -2,7 +2,7 @@ const express = require('express')
 
 module.exports = (req, res, next) => {
   if (!req.session.user) {
-    return res.redirect("/");
+    return res.status(401).redirect("/");
   }
   next();
 };
