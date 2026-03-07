@@ -26,11 +26,11 @@ const Schema = mongoose.Schema
  *         startDate:
  *           type: string
  *           format: date-time
- *           description: Date de début de la réservation (format ISO 8601)
+ *           description: Date de début de la réservation
  *         endDate:
  *           type: string
  *           format: date-time
- *           description: Date de fin de la réservation (format ISO 8601)
+ *           description: Date de fin de la réservation
  */
 const Reservation = new Schema({
     catwayNumber: {

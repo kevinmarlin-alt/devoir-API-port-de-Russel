@@ -8,6 +8,7 @@ const reservationRoute = require('./api/reservation.routes')
 
 const privateAuth = require('../middlewares/authenticate');
 
+
 router.use('/', authentitaceRoute)
 router.use('/catways', privateAuth, catwayRoute)
 router.use('/catways', privateAuth, reservationRoute)

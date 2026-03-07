@@ -72,7 +72,7 @@ exports.delete = async (req, res) => {
 
         await usersServices.delete(email) 
 
-        res.status(200).json({ message: "Suppression du compte réussit" })
+        res.status(200).json({ message: "Suppression de l'utilisateur réussit" })
 
     } catch (error) {
         console.error("Erreur : ", error)
