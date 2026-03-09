@@ -2,6 +2,7 @@ const Catway = require('../models/catway')
 const reservationServices = require('../services/reservations.services')
 const User = require('../models/user')
 
+const usersServices = require('../services/users.services')
 const catwaysServices = require('../services/catways.services')
 
 exports.login = (req, res) => {
@@ -10,7 +11,9 @@ exports.login = (req, res) => {
 
 
 exports.dashboard = async (req, res) => {
+
     try {
+        const user = await usersServices.getByEmail(req.user.email)
         const reservations = await reservationServices.findCurrent()
 
 
@@ -18,7 +21,7 @@ exports.dashboard = async (req, res) => {
           return res.status(404).json({ message: "Il n'y a pas de réservation." })
         }
         res.status(200).render("dashboard", {
-            user: req.session.user, 
+            user: user, 
             date: new Date().toLocaleDateString("en-FR"),
             reservations
         })
@@ -35,7 +38,7 @@ exports.users = async (req, res) => {
             return res.status(404).send("Utilisateur introuvable");
         }
         res.status(200).render('users', {
-            user: req.session.user, 
+            user: req.user, 
             userSelected: null,
             users
         })
@@ -54,7 +57,7 @@ exports.catways = async (req, res) => {
     }
           
     res.status(200).render('catways', {
-        user: req.session.user, 
+        user: req.user, 
         catways
     })
 
@@ -74,7 +77,7 @@ exports.reservations = async (req, res) => {
 
 
         res.status(200).render('reservations', {
-            user: req.session.user,
+            user: req.user,
             catways
           })
     } catch (error) {
