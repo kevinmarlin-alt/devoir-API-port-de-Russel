@@ -1,0 +1,6 @@
+# OS
+.DS_Store
+.DS_Stoare?
+
+# Ignorer un dossier
+node_modules/
