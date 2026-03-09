@@ -3,7 +3,6 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors')
-const session = require('express-session')
 const mongodb = require('./db/mongo')
 const indexRouter = require('./routes/index.routes');
 const apiRouter = require('./routes/api.routes')
@@ -27,22 +26,9 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-
-
-app.use(session({
-  name: "port-russell-session",
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    httpOnly: true,
-    maxAge: 1000 * 60 * 60 * 24 // 24 heures
-  }
-}))
 
 app.use(express.static(path.join(__dirname, 'public')));
-//app.use('/docs', express.static(path.join(__dirname, 'docs')));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use('/', indexRouter);
 app.use('/api', apiRouter);

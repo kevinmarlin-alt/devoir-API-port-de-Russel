@@ -18,7 +18,7 @@ const options = {
          cookieAuth: {
            type: "apiKey",
            in: "cookie",
-           name: "port-russell-session"
+           name: "port_russell_token"
          }
       },
     },
