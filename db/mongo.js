@@ -11,7 +11,7 @@ const clientOptions = {
 
 exports.initClientDbConnection = async () => {
     try {
-        await mongoose.connect(process.env.URL_MONGO, clientOptions)
+        await mongoose.connect("mongodb+srv://renderapp2:MotDePasseFacile123@cluster0.yhlexfo.mongodb.net/apinode?appName=Cluster0", clientOptions)
         console.log('Connected')
 
     } catch (error) {
