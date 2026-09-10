@@ -2,7 +2,11 @@ const mongoose = require('mongoose');
 
 const clientOptions = {
     //useNewUrlParser: true,
-    dbName: "apinode"
+    dbName: "apinode",
+    tls: true,
+    ssl: true,
+    retryWrites: true,
+    w: 'majority'
 }
 
 exports.initClientDbConnection = async () => {
